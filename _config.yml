@@ -106,7 +106,10 @@ theme: next
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/s-chord-s/tech-chord-blog.git
+  # windows用
+  # repo: https://github.com/s-chord-s/tech-chord-blog.git
+  # mac用
+  repo: git@github.com-blog:s-chord-s/tech-chord-blog.git
   branch: gh-pages
 
 menu:

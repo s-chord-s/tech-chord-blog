@@ -107,9 +107,9 @@ theme: next
 deploy:
   type: git
   # windows用
-  repo: https://github.com/s-chord-s/tech-chord-blog.git
+  # repo: https://github.com/s-chord-s/tech-chord-blog.git
   # mac用
-  # repo: git@github.com-blog:s-chord-s/tech-chord-blog.git
+  repo: git@github.com-blog:s-chord-s/tech-chord-blog.git
   branch: gh-pages
 
 menu:

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/tech-chord-blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/tech-chord-blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/tech-chord-blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/tech-chord-blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/tech-chord-blog/css/main.css">
+
+
+<link rel="stylesheet" href="/tech-chord-blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"s-chord-s.github.io","root":"/tech-chord-blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Copilotに作曲させてみた!はじめに今回はCopilotの力を駆使して作曲をしていこうと思います。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="compose-with-copilot">
+<meta property="og:url" content="https://s-chord-s.github.io/tech-chord-blog/2025/08/04/compose-with-copilot/index.html">
+<meta property="og:site_name" content="tech-chord-memo">
+<meta property="og:description" content="Copilotに作曲させてみた!はじめに今回はCopilotの力を駆使して作曲をしていこうと思います。">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://s-chord-s.github.io/tech-chord-blog/images/compose-with-copilot/bpm.png">
+<meta property="og:image" content="https://s-chord-s.github.io/tech-chord-blog/images/compose-with-copilot/instrumentation.png">
+<meta property="og:image" content="https://s-chord-s.github.io/tech-chord-blog/images/compose-with-copilot/song-structure.png">
+<meta property="og:image" content="https://s-chord-s.github.io/tech-chord-blog/images/compose-with-copilot/chord.png">
+<meta property="og:image" content="https://s-chord-s.github.io/tech-chord-blog/images/compose-with-copilot/melody-a.png">
+<meta property="og:image" content="https://s-chord-s.github.io/tech-chord-blog/images/compose-with-copilot/melody-b.png">
+<meta property="og:image" content="https://s-chord-s.github.io/tech-chord-blog/images/compose-with-copilot/melody-sabi.png">
+<meta property="article:published_time" content="2025-08-04T07:46:19.000Z">
+<meta property="article:modified_time" content="2025-08-04T14:39:15.092Z">
+<meta property="article:author" content="schords">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s-chord-s.github.io/tech-chord-blog/images/compose-with-copilot/bpm.png">
+
+<link rel="canonical" href="https://s-chord-s.github.io/tech-chord-blog/2025/08/04/compose-with-copilot/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'ja'
+  };
+</script>
+
+  <title>compose-with-copilot | tech-chord-memo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/tech-chord-blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">tech-chord-memo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/tech-chord-blog/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/tech-chord-blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://s-chord-s.github.io/tech-chord-blog/2025/08/04/compose-with-copilot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/tech-chord-blog/images/avatar.gif">
+      <meta itemprop="name" content="schords">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tech-chord-memo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          compose-with-copilot
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">投稿日</span>
+              
+
+              <time title="作成日：2025-08-04 16:46:19 / 修正日：23:39:15" itemprop="dateCreated datePublished" datetime="2025-08-04T16:46:19+09:00">2025-08-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Copilotに作曲させてみた"><a href="#Copilotに作曲させてみた" class="headerlink" title="Copilotに作曲させてみた!"></a>Copilotに作曲させてみた!</h1><h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>今回はCopilotの力を駆使して作曲をしていこうと思います。</p>
+<span id="more"></span>
+
+<p>Copilotに作曲に必要な項目を決めてもらい、私がそれを形にします。</p>
+<p>最終的にちゃんと曲になっていればいいな…頑張ってくれCopilotくん!</p>
+<hr>
+<h2 id="Copilotに曲の骨組みを決めてもらう"><a href="#Copilotに曲の骨組みを決めてもらう" class="headerlink" title="Copilotに曲の骨組みを決めてもらう"></a>Copilotに曲の骨組みを決めてもらう</h2><p>まずは曲の要素を設定してもらいました。</p>
+<h3 id="設定する要素"><a href="#設定する要素" class="headerlink" title="設定する要素"></a>設定する要素</h3><ul>
+<li>Key</li>
+<li>BPM</li>
+<li>楽器編成</li>
+<li>曲構成</li>
+<li>コード進行</li>
+<li>ドラム</li>
+<li>メロディライン</li>
+<li>歌詞</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">了解です！では、以下のワンコーラス構成（イントロ〜1サビ）に沿って作曲の内容を順に提案していきますね。</span><br><span class="line"></span><br><span class="line">〇 Key（調性）</span><br><span class="line">- Key：Aメジャー  </span><br><span class="line">  爽やかで前向きな雰囲気を演出しやすく、ギターの開放弦も使いやすいです。</span><br><span class="line"></span><br><span class="line">〇 テンポ</span><br><span class="line">- テンポ：92 BPM</span><br><span class="line">  ゆったりしつつもしっかりグルーヴが出るバラード〜ポップス向け。歌詞とメロディをしっかり聴かせるタイプに。</span><br><span class="line"></span><br><span class="line">〇 楽器編成</span><br><span class="line">- エレキギター（リズム＆リード）</span><br><span class="line">- ベース</span><br><span class="line">- ドラム（アコースティック、4点キット）</span><br><span class="line">- ピアノ（コードパッド的な役割）</span><br><span class="line">- ボーカル（1本メイン）</span><br><span class="line"></span><br><span class="line">〇 曲構成（イントロ〜1サビ）</span><br><span class="line">イントロ（4小節）  </span><br><span class="line">↓  </span><br><span class="line">Aメロ（8小節）  </span><br><span class="line">↓  </span><br><span class="line">Bメロ（4小節）  </span><br><span class="line">↓  </span><br><span class="line">1サビ（8小節）  </span><br><span class="line"></span><br><span class="line">〇 コード進行（各セクション）</span><br><span class="line"></span><br><span class="line">🔹イントロ（Aメジャー）  </span><br><span class="line">| A   | E   | F#m | D   |</span><br><span class="line"></span><br><span class="line">🔹Aメロ  </span><br><span class="line">| A   | Bm  | E   | A   |  </span><br><span class="line">| D   | E   | F#m | D   |</span><br><span class="line"></span><br><span class="line">🔹Bメロ  </span><br><span class="line">| Bm  | C#m | D   | E   |</span><br><span class="line"></span><br><span class="line">🔹1サビ  </span><br><span class="line">| A   | E   | F#m | C#m |  </span><br><span class="line">| D   | E   | F#m | D   |</span><br><span class="line"></span><br><span class="line">〇 各楽器の簡易TAB譜</span><br><span class="line"></span><br><span class="line">〇 ギター（イントロ例）</span><br><span class="line"></span><br><span class="line">e|-----0-------0-------2-------2--</span><br><span class="line">B|-----2-------0-------2-------3--</span><br><span class="line">G|-----2-------1-------2-------2--</span><br><span class="line">D|-----2-------2-------4-------0--</span><br><span class="line">A|-----0-------2-------4----------</span><br><span class="line">E|-------------0------------------</span><br><span class="line"></span><br><span class="line">〇 ピアノ（Aコード例）  </span><br><span class="line">- 左手：A  </span><br><span class="line">- 右手：A-C#-E  </span><br><span class="line"></span><br><span class="line">〇 ドラムパターン（イントロ例）  </span><br><span class="line"></span><br><span class="line">HH | x-x-x-x-x-x-x-x-  </span><br><span class="line">SD | ----o-------o---  </span><br><span class="line">BD | o-------o-------</span><br><span class="line"></span><br><span class="line">〇 メロディライン（1サビ例）</span><br><span class="line"></span><br><span class="line">キーAメジャー内で：  </span><br><span class="line">- 開始音：C#</span><br><span class="line">- 中心音：E → F# → G# → A（上昇）</span><br><span class="line">- 終止音：A</span><br><span class="line"></span><br><span class="line">例）4小節目で「きみがいるから〜」でA音に着地</span><br><span class="line"></span><br><span class="line">〇 歌詞案（1サビ）</span><br><span class="line"></span><br><span class="line">きみがいるから　ひとりじゃない  </span><br><span class="line">過ぎた日々も　輝いてみえる  </span><br><span class="line">なにも言わずに　ただ微笑んで  </span><br><span class="line">ぼくの世界を　変えてくれた</span><br><span class="line"></span><br><span class="line">続きやアレンジも一緒に考えていけますよ！もしギターソロや2コーラス以降まで展開したい場合も言ってくださいね。音楽理論的な調整もお任せください！🎧</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>さて、Copilotくんに決めてもらいましたが微妙に中途半端ですね…設定事項の確認をしましょうか。</p>
+<ul>
+<li>Key： OK</li>
+<li>BPM： OK</li>
+<li>楽器編成： OK</li>
+<li>曲構成： OK</li>
+<li>コード進行： OK</li>
+<li>ドラム： 中途半端</li>
+<li>メロディライン： 中途半端</li>
+<li>歌詞： 中途半端</li>
+</ul>
+<p>この状態だと中途半端のため、もう少し足りないものについて追加で設定してもらいます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">いいですね！ではイントロ〜1サビまでのドラム譜・メロディライン・歌詞をそれぞれセクションごとに分けてご提案しますね。  </span><br><span class="line">全体はAメジャー・92BPM・ポップバラードとして展開しています。</span><br><span class="line"></span><br><span class="line">〇 ドラムパターン</span><br><span class="line"></span><br><span class="line">🔸イントロ（4小節）</span><br><span class="line">HH | x-x-x-x-x-x-x-x-  </span><br><span class="line">SD | ----o-------o---  </span><br><span class="line">BD | o-------o-------</span><br><span class="line"></span><br><span class="line">🔸Aメロ（8小節）</span><br><span class="line">HH | x-x-x-x-x-x-x-x-  </span><br><span class="line">SD | ----o-----o-o---  </span><br><span class="line">BD | o-----o-------o-</span><br><span class="line"></span><br><span class="line">※少し軽めで、ボーカルを邪魔しないようなダイナミクスに。</span><br><span class="line"></span><br><span class="line">🔸Bメロ（4小節）</span><br><span class="line">HH | x-x-x-x-x-x-x-x-  </span><br><span class="line">SD | ----o-----o-o---  </span><br><span class="line">BD | o--o-----o---o--</span><br><span class="line"></span><br><span class="line">※サビへ向けて徐々に躍動感を強める。</span><br><span class="line"></span><br><span class="line">🔸1サビ（8小節）</span><br><span class="line">HH | x-x-x-x-x-x-x-x-  </span><br><span class="line">SD | ----o-o-o---o---  </span><br><span class="line">BD | o-o-----o-o-----</span><br><span class="line"></span><br><span class="line">※スネアでしっかりグルーヴを出しつつ、キックでリズムを引っ張る構成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">〇 メロディライン（音階：Aメジャー）</span><br><span class="line"></span><br><span class="line">🔸イントロ  </span><br><span class="line">※ギター＆ピアノ中心でボーカル無し。コードと雰囲気だけ作ります。</span><br><span class="line"></span><br><span class="line">🔸Aメロ（例）</span><br><span class="line">1小節：C# - E - F#（静かな語り口調）  </span><br><span class="line">2小節：F# - E - D（少し落ち着く）  </span><br><span class="line">3小節：E - F# - G#（少し展開）  </span><br><span class="line">4小節：A - G# - F#（感情が見え隠れする）</span><br><span class="line"></span><br><span class="line">5〜8小節はこれを反復＋少し高揚させるパターンで、  </span><br><span class="line">最終音はG#→A着地</span><br><span class="line"></span><br><span class="line">🔸Bメロ（例）</span><br><span class="line">1小節：F# - G# - A（少し跳ねる）  </span><br><span class="line">2小節：C# - B - A（優しく落ち着く）  </span><br><span class="line">3小節：E - F# - G#（緊張感）  </span><br><span class="line">4小節：A - B - C#（サビに向かって上昇）</span><br><span class="line"></span><br><span class="line">🔸1サビ（例）</span><br><span class="line">1小節：C# - E - F# - A  </span><br><span class="line">2小節：F# - G# - A - G#  </span><br><span class="line">3小節：A - B - C#  </span><br><span class="line">4小節：D - C# - B  </span><br><span class="line"></span><br><span class="line">5〜8小節ではさらに高めて最後にA音で着地し、  </span><br><span class="line">サビ終わりに余韻を残す形に。</span><br><span class="line"></span><br><span class="line">〇 歌詞</span><br><span class="line"></span><br><span class="line">🔸Aメロ  </span><br><span class="line">目覚めた朝に　君の声が響く  </span><br><span class="line">いつもの景色　ちょっと違って見えた  </span><br><span class="line">風がふわりと　心ほどいてく  </span><br><span class="line">何気ないこと　かけがえのない日々</span><br><span class="line"></span><br><span class="line">🔸Bメロ  </span><br><span class="line">うまく言えない想いが  </span><br><span class="line">胸の奥　揺れ動く  </span><br><span class="line">言葉より先に　伝わるもの  </span><br><span class="line">そっと　届いていたよ</span><br><span class="line"></span><br><span class="line">🔸1サビ</span><br><span class="line">きみがいるから　ひとりじゃない  </span><br><span class="line">過ぎた日々も　輝いてみえる  </span><br><span class="line">なにも言わずに　ただ微笑んで  </span><br><span class="line">ぼくの世界を　変えてくれた</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">音源化やコードアレンジ・録音アイディアにも進められますよ！  </span><br><span class="line">DAWへの落とし込みやギターTABをさらに詳細化することも可能です。もしBPM変えたい、ジャンル寄せたいなど希望があれば、どんどん言ってくださいね。🎧🔥</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>これである程度は必要な項目を設定してもらう事が出来ました。</p>
+<p>ただ、メロディラインは一体どういう意味なのだろうか。<br>歌詞に対して、音数が少ないというか…自分で考えろってことだろうか。</p>
+<p>一応、すべてCopilotくんに任せるつもりなので、メロディラインについてもっと深堀りしていこうと思います。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">了解しました！では歌詞の文字数に合わせて、1音（または1拍）に対して1語を乗せるイメージで、メロディラインを調整してみますね。以下は各セクションの歌詞とリンクしたメロディ案です。すべてAメジャー・92BPMのままで構成しています。</span><br><span class="line"></span><br><span class="line">〇 Aメロ メロディライン × 歌詞（8小節）</span><br><span class="line"></span><br><span class="line">&gt; 目覚めた朝に　君の声が響く  </span><br><span class="line">&gt; いつもの景色　ちょっと違って見えた  </span><br><span class="line">&gt; 風がふわりと　心ほどいてく  </span><br><span class="line">&gt; 何気ないこと　かけがえのない日々  </span><br><span class="line"></span><br><span class="line">1小節：C# - E - F# - E（目・覚・め・た）  </span><br><span class="line">2小節：D - E - F# - G#（朝・に・君・の）  </span><br><span class="line">3小節：F# - G# - A - B（声・が・響・く）  </span><br><span class="line">4小節：C# - B - A - G#（いつ・も・の・景）  </span><br><span class="line">5小節：F# - G# - A - G#（色・ちょ・っ・と）  </span><br><span class="line">6小節：E - F# - E - D（違・っ・て・見）  </span><br><span class="line">7小節：C# - E - D - F#（え・た・風・が）  </span><br><span class="line">8小節：E - F# - G# - A（ふ・わ・り・と）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">〇 Bメロ メロディライン × 歌詞（4小節）</span><br><span class="line"></span><br><span class="line">&gt; うまく言えない想いが  </span><br><span class="line">&gt; 胸の奥　揺れ動く  </span><br><span class="line">&gt; 言葉より先に　伝わるもの  </span><br><span class="line">&gt; そっと　届いていたよ  </span><br><span class="line"></span><br><span class="line">1小節：F# - G# - A - B（う・ま・く・言）  </span><br><span class="line">2小節：A - G# - F# - E（え・な・い・想）  </span><br><span class="line">3小節：D - F# - G# - A（い・が・胸・の）  </span><br><span class="line">4小節：C# - E - D - B（奥・揺・れ・動）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">〇 1サビ メロディライン × 歌詞（8小節）</span><br><span class="line"></span><br><span class="line">&gt; きみがいるから　ひとりじゃない  </span><br><span class="line">&gt; 過ぎた日々も　輝いてみえる  </span><br><span class="line">&gt; なにも言わずに　ただ微笑んで  </span><br><span class="line">&gt; ぼくの世界を　変えてくれた  </span><br><span class="line"></span><br><span class="line">1小節：C# - E - F# - A（き・み・が・い）  </span><br><span class="line">2小節：F# - G# - A - G#（る・か・ら・ひ）  </span><br><span class="line">3小節：A - B - A - G#（と・り・じゃ・な）  </span><br><span class="line">4小節：F# - E - D - C#（い・過・ぎ・た）  </span><br><span class="line">5小節：D - E - F# - A（日・々・も・輝）  </span><br><span class="line">6小節：A - G# - F# - E（い・て・み・え）  </span><br><span class="line">7小節：D - C# - B - A（る・な・に・も）  </span><br><span class="line">8小節：G# - A - B - C#（言・わ・ず・に）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">それぞれの音程は実際のコード進行と雰囲気に合わせて微調整する前提ですが、歌詞の区切りに自然に沿ったメロディ構成にしています。もっと跳ねたリズムにしたい、逆に滑らかにつなげたいなど、ニュアンスを指定いただければさらに調整できますよ！</span><br><span class="line"></span><br><span class="line">どんな雰囲気で歌わせたいか——切ない系？明るい系？ボーカリストのスタイルも含めてイメージがあれば、さらに詰められます。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>困ったことに、すべて8分音符っぽいメロディが作成されました。<br>さすがに私でもわかります。クソみたいなメロディラインになります。</p>
+<p>そのため、8分音符以外の音符、休符、など音価がわかるようしましょう。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">了解しました。では、より音楽的な躍動や間を意識した譜割りにリファインして、Aメロ・Bメロ・1サビのメロディラインを、休符・音価・付点を取り入れた形でご提示しますね。  </span><br><span class="line">すべてAメジャー／92BPM／4分の4拍子で統一しています。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">〇 Aメロ（8小節）</span><br><span class="line"></span><br><span class="line">&gt; 目覚めた朝に　君の声が響く  </span><br><span class="line">&gt; いつもの景色　ちょっと違って見えた  </span><br><span class="line">&gt; 風がふわりと　心ほどいてく  </span><br><span class="line">&gt; 何気ないこと　かけがえのない日々  </span><br><span class="line"></span><br><span class="line">&gt; 心ほどいてく  </span><br><span class="line">&gt; 何気ないこと  </span><br><span class="line">&gt; かけがえのない日々  </span><br><span class="line"></span><br><span class="line">| 小節 | 歌詞                             | 音階例                     | 音価例                       |</span><br><span class="line">|------|----------------------------------|----------------------------|------------------------------|</span><br><span class="line">| 5    | 目覚めた朝に                     | C# - D - E                 | ♩・♩・♩                     |</span><br><span class="line">| 6    | 君の声が響く                     | F# - G - A - B             | ♪・♩・♩・♩                 |</span><br><span class="line">| 7    | いつもの景色                     | E - F# - G#                | ♩・♩・♩                     |</span><br><span class="line">| 8    | ちょっと違って                   | A - B - A - G              | ♪・♩・♪・♩                 |</span><br><span class="line">| 9    | 見えた風がふわり                 | F# - G - A - B             | ♪・♪・♩・♩                 |</span><br><span class="line">| 10   | 心ほどいてく                     | C# - D - E                 | ♩・♩・♩                     |</span><br><span class="line">| 11   | 何気ないこと                     | F# - G# - A - B            | ♪・♩・♩・♩                 |</span><br><span class="line">| 12   | かけがえのない日々               | E - F# - G# - A - B - C#   | ♪・♩・♪・♩・♩・𝄽（休符） |</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">〇 Bメロ（4小節）</span><br><span class="line"></span><br><span class="line">&gt; うまく言えない想いが  </span><br><span class="line">&gt; 胸の奥　揺れ動く  </span><br><span class="line">&gt; 言葉より先に　伝わるもの  </span><br><span class="line">&gt; そっと　届いていたよ  </span><br><span class="line"></span><br><span class="line">| 小節 | 歌詞                            | 音階例                         | 音価例                        |</span><br><span class="line">|------|---------------------------------|--------------------------------|-------------------------------|</span><br><span class="line">| 13   | う・ま・く・言・え・ない        | C# - D - E - F# - E - F#       | ♪・♩・♪・♪・♩・𝄽            |</span><br><span class="line">| 14   | 想・い・が・胸・の・奥          | G - A - B - C# - B - A         | ♪・♪・♩・♪・♩・𝄽            |</span><br><span class="line">| 15   | 揺・れ・動・く・言・葉・よ・り  | A - B - C# - D - E - F# - E - D| ♪・♩・♪・♩・♪・♪・♩・𝄽     |</span><br><span class="line">| 16   | 先・に・伝・わ・る・も・の／そ・っ・届・い・て・い・た・よ | C# - D - E - F# - G - A - B / B - A - G# - F# - E - D - C# | ♪・♩・♪・♩・♪・♪・♩ / ♪・♩・♪・♩・♪・♩・𝄽 |</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">〇 1サビ（8小節）</span><br><span class="line"></span><br><span class="line">&gt; きみがいるから　ひとりじゃない  </span><br><span class="line">&gt; 過ぎた日々も　輝いてみえる  </span><br><span class="line">&gt; なにも言わずに　ただ微笑んで  </span><br><span class="line">&gt; ぼくの世界を　変えてくれた  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">| 小節 | 歌詞                          | 音階例                             | 音価例                             |</span><br><span class="line">|------|-------------------------------|------------------------------------|------------------------------------|</span><br><span class="line">| 17   | 重・ね・た・日・々・が         | D - E - F# - G - A - B             | ♪・♩・♪・♩・♪・♩                |</span><br><span class="line">| 18   | 導・い・た・こ・の・瞬・間・を | B - C# - D - E - F# - G - A - B    | ♪・♪・♩・♪・♩・♪・♪・𝄽         |</span><br><span class="line">| 19   | 信・じ・た・い／流・れ・る・景・色・に | C# - D - E - F#／A - B - C# - D - E - F# | ♪・♩・♪・𝄽／♪・♪・♩・♪・♩・♩      |</span><br><span class="line">| 20   | 問・い・か・け・る              | G - A - B - C#                     | ♪・♩・♪・♩                       |</span><br><span class="line">| 21   | こ・こ・に・い・て・も          | D - E - F# - G - A - B             | ♪・♩・♪・♩・♪・♩                |</span><br><span class="line">| 22   | い・い・ん・だ・よ              | C# - B - A - G - F#                | ♪・♩・♪・♩・𝄽                   |</span><br><span class="line">| 23   | 光・が・さ・す・ま・え          | E - F# - G - A - B - C#            | ♪・♩・♪・♪・♩・♩                |</span><br><span class="line">| 24   | そ・の・声・を・聞・か・せ・て  | D - E - F# - G - A - B - C# - D    | ♪・♩・♪・♩・♪・♪・♩・𝄽         |</span><br><span class="line"></span><br><span class="line">※ここ歌詞変わってね？Copilotくんさぁ...orz</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">これでメロディラインが**歌詞・リズム・音価すべてに連動した、より歌いやすく表情のあるものになったと思います。  </span><br><span class="line">DAWに取り込む際の打ち込みテンプレとしても活用できますし、必要ならMIDI対応譜面形式にも展開可能です。</span><br><span class="line"></span><br><span class="line">さらに「ここはもっと溜めたい」「言葉と音がぶつかるから変更したい」など、ニュアンスのすり合わせもできますよ。  </span><br><span class="line">どう展開していきましょう？次はコード進行やベースラインも詰めていくのもアリかもです！</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>とりあえず、どうなるかわからないけどこれで一旦作曲していきます。<br>各楽器についてどうやって弾いていくのかは、都度Copilotくんに聞いていこうと思います。</p>
+<p>それでは、Cubaseを起動して各楽器構成、曲構成などを設定していきます。</p>
+<hr>
+<h2 id="いざ、作曲"><a href="#いざ、作曲" class="headerlink" title="いざ、作曲!"></a>いざ、作曲!</h2><p>Cubase12 proを立ち上げて、設定した通りにしていきます。</p>
+<h3 id="BPM"><a href="#BPM" class="headerlink" title="BPM"></a>BPM</h3><p>今回はBPM&#x3D;92とかなりゆっくりなテンポです。</p>
+<p><img src="/tech-chord-blog/images/compose-with-copilot/bpm.png" alt="BPMの画像"></p>
+<hr>
+<h3 id="楽器編成"><a href="#楽器編成" class="headerlink" title="楽器編成"></a>楽器編成</h3><p>指定された楽器を追加していきます。</p>
+<ul>
+<li>エレキギター(リズム＆リード)</li>
+<li>ベース</li>
+<li>ドラム（アコースティック、４点キット）</li>
+<li>ピアノ（コードパッド的な役割）</li>
+<li>ボーカル（1本メイン）</li>
+</ul>
+<p>楽器少ないな…必要最小限ですね。</p>
+<p><img src="/tech-chord-blog/images/compose-with-copilot/instrumentation.png" alt="楽器編成の画像"></p>
+<hr>
+<h3 id="曲構成"><a href="#曲構成" class="headerlink" title="曲構成"></a>曲構成</h3><p>指定された構成になるようラベリングします。</p>
+<ul>
+<li>イントロ（4小節）</li>
+<li>Aメロ（8小節）</li>
+<li>Bメロ（4小節）</li>
+<li>サビ（8小節）</li>
+</ul>
+<p><img src="/tech-chord-blog/images/compose-with-copilot/song-structure.png" alt="曲構成の画像"></p>
+<hr>
+<h3 id="コード進行"><a href="#コード進行" class="headerlink" title="コード進行"></a>コード進行</h3><p>ここではざっくりコードトラックを立ち上げ、コードを設定していきます。</p>
+<ul>
+<li>Key：Aメジャー</li>
+<li>イントロ：| A | E | F#m | D |</li>
+<li>Aメロ：| A | Bm | E | A | D | E | F#m | D |</li>
+<li>Bメロ：| Bm | C#m | D | E |</li>
+<li>サビ：| A | E | F#m | C#m | D | E | F#m | D |</li>
+</ul>
+<p><img src="/tech-chord-blog/images/compose-with-copilot/chord.png" alt="コード進行の画像"></p>
+<p>一旦、コード進行を聞いてみますか…かなりヤバいですね。</p>
+<audio controls>
+  <source src="/audios/compose-with-copilot/chord.ogg">
+</audio>
+
+<hr>
+<h3 id="メロディライン"><a href="#メロディライン" class="headerlink" title="メロディライン"></a>メロディライン</h3><p>指定された通りにメロディを打ち込んでいきます。<br>一応、歌ってくれるのはSynthesizerVで初期からある「Mai」ちゃんです。</p>
+<p>そしてCopilotくんに提案してもらった歌詞とメロディはおそらく何の秩序もない物になるので、私がある程度収まるように修正するかもしれないです。<br>※基本は、Copilotくんが提案したメロディを尊重します。</p>
+<h4 id="Aメロ"><a href="#Aメロ" class="headerlink" title="Aメロ"></a>Aメロ</h4><ul>
+<li>歌詞</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ただ　通り過ぎる風が  </span><br><span class="line">君の髪を　揺らした瞬間  </span><br><span class="line">なぜか　胸が騒ぎだした  </span><br><span class="line">まだ名前も知らないのに</span><br></pre></td></tr></table></figure>
+
+<p><img src="/tech-chord-blog/images/compose-with-copilot/melody-a.png" alt="Aメロディライン"></p>
+<h4 id="Bメロ"><a href="#Bメロ" class="headerlink" title="Bメロ"></a>Bメロ</h4><ul>
+<li>歌詞</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">うまく言えない想いが  </span><br><span class="line">胸の奥　揺れ動く  </span><br><span class="line">言葉より先に　伝わるもの  </span><br><span class="line">そっと　届いていたよ</span><br></pre></td></tr></table></figure>
+
+<p><img src="/tech-chord-blog/images/compose-with-copilot/melody-b.png" alt="Bメロディライン"></p>
+<h4 id="サビ"><a href="#サビ" class="headerlink" title="サビ"></a>サビ</h4><ul>
+<li>歌詞</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">重ねた日々が　導いた  </span><br><span class="line">この瞬間を　信じたい  </span><br><span class="line">流れる景色に　問いかける  </span><br><span class="line">問いたける  </span><br><span class="line">ここにいても　いいんだよ  </span><br><span class="line">いいんだよ  </span><br><span class="line">光が差す前  </span><br><span class="line">その声を　聞かせて</span><br></pre></td></tr></table></figure>
+<p><img src="/tech-chord-blog/images/compose-with-copilot/melody-sabi.png" alt="サビメロディライン"></p>
+<p>後で画像を追加</p>
+<hr>
+<h3 id="各楽器の打ち込み"><a href="#各楽器の打ち込み" class="headerlink" title="各楽器の打ち込み"></a>各楽器の打ち込み</h3><h4 id="ドラム"><a href="#ドラム" class="headerlink" title="ドラム"></a>ドラム</h4><p>ドラムパターンを指定された通りに打ち込んでいきます。<br>…これ大丈夫か？あとでアレンジ入れてもらおう。</p>
+<p>後で画像をついか</p>
+<h4 id="ベース"><a href="#ベース" class="headerlink" title="ベース"></a>ベース</h4><p>ベースラインが決まっていませんでした。<br>追加で質問して、ベースラインを打ち込みます。</p>
+<p>あとで画像をついか</p>
+<h4 id="ギター"><a href="#ギター" class="headerlink" title="ギター"></a>ギター</h4><p>どうやらリズムとリードで分かれているようです。<br>そもそも、歪み量とかある程度EQは設定したほうがよさそう。弾き方もディレクションしてもらうため追加で質問します。</p>
+<ul>
+<li><p>リズムギター</p>
+</li>
+<li><p>リードギター</p>
+</li>
+</ul>
+<p>後で画像を追加</p>
+<hr>
+<p>一通り、指定されたよう打ち込んだので聞いてみますか（EQなどの調整は未実施）。</p>
+<p>ここで曲が聞けるようにする。</p>
+<hr>
+<h3 id="アレンジ"><a href="#アレンジ" class="headerlink" title="アレンジ"></a>アレンジ</h3><p>まあ、スケールから外れることはないため退屈ですが曲にはなっていますか…。<br>ただ、これではクソつまらないため、アレンジしてもらいます。</p>
+<p>もちろんCopilotくんにアレンジを任せます。</p>
+<p>以下の点が気になるため、そちらを重点的に修正してもらいます。</p>
+<ul>
+<li>なにか</li>
+<li>なにか</li>
+<li>なにか</li>
+</ul>
+<hr>
+<h3 id="MIX・マスタリング"><a href="#MIX・マスタリング" class="headerlink" title="MIX・マスタリング"></a>MIX・マスタリング</h3><p>ここでもCopilotくんにやってもらいます。</p>
+<h4 id="MIX"><a href="#MIX" class="headerlink" title="MIX"></a>MIX</h4><p>各楽器の音量とEQ、パンニングなどをどうするか質問します。</p>
+<p>後で画像追加</p>
+<h4 id="マスタリング"><a href="#マスタリング" class="headerlink" title="マスタリング"></a>マスタリング</h4><p>ここはCopilotくんではなく、元々所持していたOzone10を利用してマスタリングします。<br>AIを駆使しているので趣旨からはあまり外れていない…はず。</p>
+<p>単純に使わないのもったいないと思って追加しました。すみません。</p>
+<p>後で画像を追加</p>
+<hr>
+<h2 id="完成！"><a href="#完成！" class="headerlink" title="完成！"></a>完成！</h2><p>まずは聞いてもらいましょうか。</p>
+<p>ここで曲を聞けるようにする。</p>
+<hr>
+<p>どうでしょうか？<br>割と聞けるか？やっぱクソみたいな曲だな…。</p>
+<p>やっぱり音楽専門のAIではないため、作曲センスは絶望的としか言えませんね。</p>
+<p>ですが、作曲は大体こうやって進めていくのだなと少し流れをつかめた方もいるのではないかと思います。</p>
+<p>もちろんこの流れが正解ではありませんが、初心者がいきなり作曲しようと思ったら何をすればよいかわからないと言う方に向けて本記事を書いています。</p>
+<p>ですが、最終的にはセンスが物を言う世界でもあるためAIに頼りすぎず<strong>自分の感性を大事に</strong>してもらえればな、と思います。</p>
+<hr>
+<h2 id="さいごに"><a href="#さいごに" class="headerlink" title="さいごに"></a>さいごに</h2><p>ここまで記事をご覧いただきありがとうございます。<br>今回はAIを駆使して、作曲をする！と言う事で進めていきました。</p>
+<p>結果としては、全部AIに任せると今のところロクな事にならないなって印象ですが、これは作曲専用AIではないからですね。</p>
+<p>ちゃんとした専用AIを利用すればマシな曲は出来ると思いますが、そんなことしてもただ作業になるだけなので、作曲を楽しむなら「自分で考えて作曲しアイデアをAIから提案してもらう」などの形が一番良さそうだと感じました。</p>
+<p>今後はもうちょっと自分の音楽センスを磨ければ良いなと思います。<br>もしくはまた、AI作曲（別ジャンル）でやるかも？</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/tech-chord-blog/2025/08/02/my-gear-introduction/" rel="prev" title="my-gear-introduction">
+      <i class="fa fa-chevron-left"></i> my-gear-introduction
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Copilot%E3%81%AB%E4%BD%9C%E6%9B%B2%E3%81%95%E3%81%9B%E3%81%A6%E3%81%BF%E3%81%9F"><span class="nav-number">1.</span> <span class="nav-text">Copilotに作曲させてみた!</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB"><span class="nav-number">1.1.</span> <span class="nav-text">はじめに</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Copilot%E3%81%AB%E6%9B%B2%E3%81%AE%E9%AA%A8%E7%B5%84%E3%81%BF%E3%82%92%E6%B1%BA%E3%82%81%E3%81%A6%E3%82%82%E3%82%89%E3%81%86"><span class="nav-number">1.2.</span> <span class="nav-text">Copilotに曲の骨組みを決めてもらう</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B%E8%A6%81%E7%B4%A0"><span class="nav-number">1.2.1.</span> <span class="nav-text">設定する要素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%81%84%E3%81%96%E3%80%81%E4%BD%9C%E6%9B%B2"><span class="nav-number">1.3.</span> <span class="nav-text">いざ、作曲!</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BPM"><span class="nav-number">1.3.1.</span> <span class="nav-text">BPM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A5%BD%E5%99%A8%E7%B7%A8%E6%88%90"><span class="nav-number">1.3.2.</span> <span class="nav-text">楽器編成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B2%E6%A7%8B%E6%88%90"><span class="nav-number">1.3.3.</span> <span class="nav-text">曲構成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%82%B3%E3%83%BC%E3%83%89%E9%80%B2%E8%A1%8C"><span class="nav-number">1.3.4.</span> <span class="nav-text">コード進行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%83%A1%E3%83%AD%E3%83%87%E3%82%A3%E3%83%A9%E3%82%A4%E3%83%B3"><span class="nav-number">1.3.5.</span> <span class="nav-text">メロディライン</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A%E3%83%A1%E3%83%AD"><span class="nav-number">1.3.5.1.</span> <span class="nav-text">Aメロ</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B%E3%83%A1%E3%83%AD"><span class="nav-number">1.3.5.2.</span> <span class="nav-text">Bメロ</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E3%82%B5%E3%83%93"><span class="nav-number">1.3.5.3.</span> <span class="nav-text">サビ</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%84%E6%A5%BD%E5%99%A8%E3%81%AE%E6%89%93%E3%81%A1%E8%BE%BC%E3%81%BF"><span class="nav-number">1.3.6.</span> <span class="nav-text">各楽器の打ち込み</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E3%83%89%E3%83%A9%E3%83%A0"><span class="nav-number">1.3.6.1.</span> <span class="nav-text">ドラム</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E3%83%99%E3%83%BC%E3%82%B9"><span class="nav-number">1.3.6.2.</span> <span class="nav-text">ベース</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E3%82%AE%E3%82%BF%E3%83%BC"><span class="nav-number">1.3.6.3.</span> <span class="nav-text">ギター</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%82%A2%E3%83%AC%E3%83%B3%E3%82%B8"><span class="nav-number">1.3.7.</span> <span class="nav-text">アレンジ</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIX%E3%83%BB%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%AA%E3%83%B3%E3%82%B0"><span class="nav-number">1.3.8.</span> <span class="nav-text">MIX・マスタリング</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MIX"><span class="nav-number">1.3.8.1.</span> <span class="nav-text">MIX</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%AA%E3%83%B3%E3%82%B0"><span class="nav-number">1.3.8.2.</span> <span class="nav-text">マスタリング</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%88%90%EF%BC%81"><span class="nav-number">1.4.</span> <span class="nav-text">完成！</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%81%95%E3%81%84%E3%81%94%E3%81%AB"><span class="nav-number">1.5.</span> <span class="nav-text">さいごに</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">schords</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/tech-chord-blog/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">タグ</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">schords</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/tech-chord-blog/lib/anime.min.js"></script>
+  <script src="/tech-chord-blog/lib/velocity/velocity.min.js"></script>
+  <script src="/tech-chord-blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/tech-chord-blog/js/utils.js"></script>
+
+<script src="/tech-chord-blog/js/motion.js"></script>
+
+
+<script src="/tech-chord-blog/js/schemes/muse.js"></script>
+
+
+<script src="/tech-chord-blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/tech-chord-blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/tech-chord-blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/tech-chord-blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/tech-chord-blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/tech-chord-blog/css/main.css">
+
+
+<link rel="stylesheet" href="/tech-chord-blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"s-chord-s.github.io","root":"/tech-chord-blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Hexo + GithubPages で静的ブログを作成しようはじめに個人技術ブログとして 「Hexo + Github Pages」構成 での静的サイト構築にチャレンジしました。自分用の備忘録を兼ねつつ、同じような構成を検討中の方にも参考になればと思い記録しています。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexoで静的ブログを作成しよう!">
+<meta property="og:url" content="https://s-chord-s.github.io/tech-chord-blog/2025/07/30/create-blog-with-hexo/index.html">
+<meta property="og:site_name" content="tech-chord-memo">
+<meta property="og:description" content="Hexo + GithubPages で静的ブログを作成しようはじめに個人技術ブログとして 「Hexo + Github Pages」構成 での静的サイト構築にチャレンジしました。自分用の備忘録を兼ねつつ、同じような構成を検討中の方にも参考になればと思い記録しています。">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2025-07-30T09:14:16.000Z">
+<meta property="article:modified_time" content="2025-08-01T08:39:50.569Z">
+<meta property="article:author" content="schords">
+<meta property="article:tag" content="開発">
+<meta property="article:tag" content="Hexo">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://s-chord-s.github.io/tech-chord-blog/2025/07/30/create-blog-with-hexo/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'ja'
+  };
+</script>
+
+  <title>Hexoで静的ブログを作成しよう! | tech-chord-memo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/tech-chord-blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">tech-chord-memo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/tech-chord-blog/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/tech-chord-blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://s-chord-s.github.io/tech-chord-blog/2025/07/30/create-blog-with-hexo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/tech-chord-blog/images/avatar.gif">
+      <meta itemprop="name" content="schords">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tech-chord-memo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hexoで静的ブログを作成しよう!
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">投稿日</span>
+
+              <time title="作成日：2025-07-30 18:14:16" itemprop="dateCreated datePublished" datetime="2025-07-30T18:14:16+09:00">2025-07-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">編集日</span>
+                <time title="修正日：2025-08-01 17:39:50" itemprop="dateModified" datetime="2025-08-01T17:39:50+09:00">2025-08-01</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Hexo-GithubPages-で静的ブログを作成しよう"><a href="#Hexo-GithubPages-で静的ブログを作成しよう" class="headerlink" title="Hexo + GithubPages で静的ブログを作成しよう"></a>Hexo + GithubPages で静的ブログを作成しよう</h1><h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>個人技術ブログとして <strong>「Hexo + Github Pages」構成</strong> での静的サイト構築にチャレンジしました。<br>自分用の備忘録を兼ねつつ、同じような構成を検討中の方にも参考になればと思い記録しています。</p>
+<span id="more"></span>
+<hr>
+<h2 id="技術構成"><a href="#技術構成" class="headerlink" title="技術構成"></a>技術構成</h2><p>今回使った主な技術やサービスは以下の通りです：</p>
+<ul>
+<li>静的サイトジェネレーター：Hexo</li>
+<li>デプロイ先：Github Pages</li>
+</ul>
+<h2 id="事前準備"><a href="#事前準備" class="headerlink" title="事前準備"></a>事前準備</h2><p>まずは <strong>node.js</strong>, <strong>Git</strong> がインストールされていることを確認してください。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node --version</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm --version</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure>
+
+<p>各コマンドを実行して、バージョンが表示されていればインストールされています。<br>※上記のインストール方法は割愛させていただきます。</p>
+<h2 id="Hexoのインストール"><a href="#Hexoのインストール" class="headerlink" title="Hexoのインストール"></a>Hexoのインストール</h2><p>以下のコマンドを実行して、 <strong>Hexo</strong> をインストールしましょう。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<p>以下のコマンドでバージョンが表示されていれば、インストール出来ています。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo version</span><br></pre></td></tr></table></figure>
+
+<h2 id="初回起動"><a href="#初回起動" class="headerlink" title="初回起動"></a>初回起動</h2><p>作業用フォルダに移動して以下のコマンドを実行します。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+
+<p>これで基本的なファイルが作成されました。</p>
+<p>次は、パッケージ不足などが無いように以下のコマンドを実行します。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<p>上記コマンドはinitコマンドで生成されたpackage.jsonを元に不足したパッケージを取得します。</p>
+<p>次はGitを使ってHexoで生成したファイルをやり取りするため、以下のプラグインも導入しておきます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>確認のため、起動テストを行います。<br>以下のコマンドを実行してローカルホストでHexoが立ち上がります。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<p>以下の通りに表示されていれば成功です。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s    -- コマンドを叩く事で以下のログが出力される。</span><br><span class="line">INFO  Validating config</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
+
+<p>上記の通り、ブラウザで「<strong><a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000/</a></strong>」にアクセスします。<br>※ <em>Ctrl + 左クリック</em> で直接開けます。</p>
+<p>Hexoのデフォルトページが表示されていれば成功です。</p>
+<p>確認が完了したため、一旦閉じます。<br>コマンドプロンプト（ターミナル）で <strong>Ctrl + C</strong> を入力すれば、サーバーを閉じることができます。</p>
+<hr>
+<h2 id="Github関連の設定"><a href="#Github関連の設定" class="headerlink" title="Github関連の設定"></a>Github関連の設定</h2><p>ここからはHexoの中身を変更していくため、変更履歴がつくようGitの設定を行っていきます。</p>
+<h3 id="ローカルリポジトリを作る"><a href="#ローカルリポジトリを作る" class="headerlink" title="ローカルリポジトリを作る"></a>ローカルリポジトリを作る</h3><p>Hexoのルートディレクトリでコマンドプロンプト（ターミナル）で開いて以下を実行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+
+<p>以下の通りに出力されれば成功です。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Initialized empty Git repository in /your/file/path/.git</span><br></pre></td></tr></table></figure>
+
+<p>今後のために、以下のコマンド実行してブランチを確認します。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git branch</span><br><span class="line"></span><br><span class="line">* main  -- 現在のブランチ名が出力されているため覚えておく。</span><br></pre></td></tr></table></figure>
+
+
+<p>次は、Hexoで生成したファイルをGit管理化に置きます。<br>以下のコマンドを実行し、追跡対象に加えます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+
+<p>上記コマンドですべてのファイルが追跡対象になりました。<br>そこから、変更の保存を行います。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;First Commit&quot;</span><br></pre></td></tr></table></figure>
+
+<p>これで変更の保存が出来ました。</p>
+<p>一応以下のコマンド実行してコミット内容を確認します。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --stat</span><br></pre></td></tr></table></figure>
+
+<p>先ほど実行したFirst Commitのメッセージが記述されている事が確認できれば成功しています。</p>
+<p>次はコミットした内容をリモートリポジトリにプッシュするのですが、そのためにはリモートリポジトリでの設定が必要です。</p>
+<h3 id="Githubでリモートリポジトリを作る"><a href="#Githubでリモートリポジトリを作る" class="headerlink" title="Githubでリモートリポジトリを作る"></a>Githubでリモートリポジトリを作る</h3><p>ブラウザでGithubにアクセスして、ログインしてください。<br>※無料会員登録してなければ、まずは先にアカウントを新規作成してください。</p>
+<p>ログインしたら画面左側に <em>New</em> ボタンを押下し新規リポジトリを作成します。</p>
+<p>以下の通りに入力して <em>Create repository</em> ボタンを押下。</p>
+<ul>
+<li><strong>Repository Name：任意</strong> ※必須</li>
+<li>Description : 任意　※必須ではない</li>
+<li><strong>Choose visibillity：Public</strong> ※必須。無料アカウントではPublicでないとGithub Pagesに公開出来ない？</li>
+<li>Add README：任意  ※初期設定のoffで問題ない</li>
+<li>Add .gitignore：任意  ※初期設定のNo .gitignoreで問題ない</li>
+<li>Add license：任意 ※初期設定のNo licenseで問題ない</li>
+</ul>
+<p>つまり、<strong>「Repository Name」</strong> と <strong>「Choose visibillity」</strong> が重要となる。<br>それ以外は初期設定のままで問題ないです。</p>
+<p>その後、リポジトリが作成され画面が表示されます。<br><strong>Quick setup</strong> と書かれているところにあるURLをコピーして控えておきます。</p>
+<p>今回は <strong>http</strong>を選択してURLをコピーしておきます。</p>
+<p>次はコマンドプロンプト（ターミナル）に戻って以下のコマンドを実行します。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin https://github.com/yourname/repositoryname.git</span><br></pre></td></tr></table></figure>
+
+<p>origin 以降のURLは先ほど控えておいたURLをペーストしておけば安心です。<br>これでリモートとローカルを接続できました。</p>
+<p>以下のコマンド実行して、リモートリポジトリにローカルリポジトリでコミットした内容をプッシュします。<br>※横文字が多すぎて辟易するかもしれませんが慣れてください。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin main    -- origin 以降に少し前に確認したブランチ名を入力</span><br></pre></td></tr></table></figure>
+
+<p>これでリモートリポジトリにプッシュできました。</p>
+<p>Githubで作成したリポジトリを確認してください。<br>Hexoのファイルがすべて追加されているはずです。</p>
+<h2 id="Github-Pagesに公開"><a href="#Github-Pagesに公開" class="headerlink" title="Github Pagesに公開"></a>Github Pagesに公開</h2><p>まずはGithubで先ほど作成したリポジトリ画面へ移動し、Settingをクリック。</p>
+<p>Setting画面へ遷移したら左側にある「Pages」をクリック。</p>
+<p><strong>Build on deployment</strong> 項目にある <em>Branch</em> で現在のブランチを指定して「Save」ボタンを押下。</p>
+<p>以下のURLが記載されている項目から「Visit site」ボタンを押下して、アクセス。<br>Your site is live at <strong><a target="_blank" rel="noopener" href="https://username.github.io/repositoryname/">https://username.github.io/repositoryname/</a></strong> </p>
+<p>ローカルホストで確認した時と同じ内容が表示されていれば成功です。</p>
+<hr>
+<h1 id="さいごに-＜-所感-＞"><a href="#さいごに-＜-所感-＞" class="headerlink" title="さいごに ＜ 所感 ＞"></a>さいごに ＜ 所感 ＞</h1><p>以上が <strong>Hexo + Github Pages</strong> で静的ブログを作成しよう、でした。<br>初めてブログというのを書いてみて、どうやって話せば良いのだろうと悩んでしまいました。</p>
+<p>備忘録的には簡潔に適当な言葉でよかったとは思いつつも、今回の構成でブログを書いてみたいとこの記事を見ていただいた方には伝わらないかと考えると丁寧な言葉を使って分かりやすく記載する必要があり、時間がかかってしまいました。</p>
+<p>改めて文章力、語彙力の低さを痛感しました。<br>次の記事はもう少し読みやすくなるよう努めます。</p>
+<p>また、実際にやってみて分からない事が会った時は度々AIに聞いて実行していました。<br>そうすると割と問題が解決するものだから、技術の進歩が凄いと感じました。</p>
+<p>割とコーディングも意図した通りにやってくれる事が多いので、AI樣々ですね。</p>
+<p>AIに頼らずに書ければかっこいいですが、今はAIと共に先人の背中に追いつけるように頑張ります。</p>
+<p>ここまで記事をご覧いただきありがとうございました。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tech-chord-blog/tags/%E9%96%8B%E7%99%BA/" rel="tag"># 開発</a>
+              <a href="/tech-chord-blog/tags/Hexo/" rel="tag"># Hexo</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/tech-chord-blog/2025/07/30/index/" rel="next" title="Tech-Chord-Memo">
+      Tech-Chord-Memo <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo-GithubPages-%E3%81%A7%E9%9D%99%E7%9A%84%E3%83%96%E3%83%AD%E3%82%B0%E3%82%92%E4%BD%9C%E6%88%90%E3%81%97%E3%82%88%E3%81%86"><span class="nav-number">1.</span> <span class="nav-text">Hexo + GithubPages で静的ブログを作成しよう</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB"><span class="nav-number">1.1.</span> <span class="nav-text">はじめに</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E8%A1%93%E6%A7%8B%E6%88%90"><span class="nav-number">1.2.</span> <span class="nav-text">技術構成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%89%8D%E6%BA%96%E5%82%99"><span class="nav-number">1.3.</span> <span class="nav-text">事前準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB"><span class="nav-number">1.4.</span> <span class="nav-text">Hexoのインストール</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%9B%9E%E8%B5%B7%E5%8B%95"><span class="nav-number">1.5.</span> <span class="nav-text">初回起動</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Github%E9%96%A2%E9%80%A3%E3%81%AE%E8%A8%AD%E5%AE%9A"><span class="nav-number">1.6.</span> <span class="nav-text">Github関連の設定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8B"><span class="nav-number">1.6.1.</span> <span class="nav-text">ローカルリポジトリを作る</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Github%E3%81%A7%E3%83%AA%E3%83%A2%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8B"><span class="nav-number">1.6.2.</span> <span class="nav-text">Githubでリモートリポジトリを作る</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Github-Pages%E3%81%AB%E5%85%AC%E9%96%8B"><span class="nav-number">1.7.</span> <span class="nav-text">Github Pagesに公開</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E3%81%95%E3%81%84%E3%81%94%E3%81%AB-%EF%BC%9C-%E6%89%80%E6%84%9F-%EF%BC%9E"><span class="nav-number">2.</span> <span class="nav-text">さいごに ＜ 所感 ＞</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">schords</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/tech-chord-blog/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">タグ</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">schords</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/tech-chord-blog/lib/anime.min.js"></script>
+  <script src="/tech-chord-blog/lib/velocity/velocity.min.js"></script>
+  <script src="/tech-chord-blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/tech-chord-blog/js/utils.js"></script>
+
+<script src="/tech-chord-blog/js/motion.js"></script>
+
+
+<script src="/tech-chord-blog/js/schemes/muse.js"></script>
+
+
+<script src="/tech-chord-blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
